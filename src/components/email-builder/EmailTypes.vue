@@ -12,8 +12,8 @@
           v-for="(email, index) in typeEmails"
           :key="index"
           type="ghost"
-          class="uppercase shadow-[0_4px_8px_rgba(0,0,0,0.2)] text-start md:text-center border border-border-gray"
-          @click="mainStore.setEmailType(email)"
+          class="uppercase shadow-[0_4px_8px_rgba(0,0,0,0.2)] text-start md:text-center border border-border-gray active:!text-white active:!bg-primary-700 !outline-0 !shadow-0"
+          @click="selectEmailType(email)"
         >
           {{ email.label }}
         </CIButton>
@@ -25,6 +25,7 @@
 import { useMainStore } from "@/store/useMainStore.js";
 import { ref } from "vue";
 import CIButton from "@/components/ui/CIButton.vue";
+import { PROMPT } from "@/constants/index.js";
 
 const mainStore = useMainStore();
 
@@ -50,6 +51,11 @@ const typeEmails = ref([
       "Generate template email for a type of behavior-based email you might send to an existing customer",
   },
 ]);
+const selectEmailType = (email) => {
+  mainStore.setCurrentStep(PROMPT.WRITE_PROMPT);
+  mainStore.addToNavigationHistory(null);
+  mainStore.setEmailType(email);
+};
 </script>
 
 <style lang="scss"></style>

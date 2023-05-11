@@ -15,6 +15,7 @@ class EmailApi {
   async generateEmail(prompt) {
     try {
       this.loading.value = true;
+      this.hasResult.value = false;
       const result = await this.openai.createCompletion({
         model: "text-davinci-003",
         prompt: prompt,

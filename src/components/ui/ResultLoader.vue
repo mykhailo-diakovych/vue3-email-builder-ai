@@ -10,12 +10,12 @@
 
 <style scoped lang="scss">
 .lds-ring {
-  @apply inline-block relative w-[60px] h-[60px];
+  @apply inline-block relative w-7 h-7;
 }
 .lds-ring div {
   animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
   border-color: #fff transparent transparent transparent;
-  @apply box-border block absolute w-[64px] h-[64px] m-2  rounded-full border-8;
+  @apply box-border block absolute w-[32px] h-[32px] m-2  rounded-full border-4;
 }
 .lds-ring div:nth-child(1) {
   animation-delay: -0.45s;

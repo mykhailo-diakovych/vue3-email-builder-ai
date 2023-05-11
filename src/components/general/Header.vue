@@ -17,14 +17,10 @@
     <div
       class="bg-off-white -translate-y-full overflow-hidden h-0 shadow-[0_4px_8px_rgba(0,0,0,0.2)] w-full p-0 flex items-center justify-between transition-all"
       :class="{
-        'h-[56px] translate-y-0 py-2 px-4': mainStore.selectedEmailType,
+        'h-[56px] translate-y-0 py-2 px-4': mainStore.getCurrentStep,
       }"
     >
-      <CIButton
-        type="ghost-gray"
-        class="flex items-center"
-        @click="mainStore.setEmailType(null)"
-      >
+      <CIButton type="ghost-gray" class="flex items-center" @click="onBack">
         <img class="mr-2" :src="getImageUrl('assets/arrow.svg')" alt="arrow" />
         <span>BACK</span>
       </CIButton>
@@ -44,6 +40,11 @@ import { getImageUrl } from "@/helpers/index.js";
 import CIButton from "@/components/ui/CIButton.vue";
 import { useMainStore } from "@/store/useMainStore.js";
 const mainStore = useMainStore();
+
+const onBack = () => {
+  const backItem = mainStore.getNavigationHistory.splice(-1);
+  mainStore.setCurrentStep(backItem[0]);
+};
 </script>
 
 <style scoped></style>
