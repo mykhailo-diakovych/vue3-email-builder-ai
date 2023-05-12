@@ -17,18 +17,6 @@
           />
           <span class="text-base uppercase">{{ option.label }}</span>
         </CIButton>
-        <CIButton
-          type="ghost"
-          class="flex items-center uppercase shadow-[0_4px_8px_rgba(0,0,0,0.2)] text-start md:text-center border border-border-gray"
-          @click="$emit('continue')"
-        >
-          <img
-            :src="getImageUrl(`assets/more-options-email/look-good.svg`)"
-            alt="look-good"
-            class="mr-4"
-          />
-          <span class="text-base uppercase">Looks GooD!</span>
-        </CIButton>
       </div>
     </div>
     <div
@@ -64,7 +52,7 @@ import { ref } from "vue";
 import { getImageUrl } from "@/helpers/index.js";
 import ActionsWrapper from "@/components/email-builder/prompt-window/ActionsWrapper.vue";
 
-const emit = defineEmits(["question-3", "additional-continue"]);
+const emit = defineEmits(["question-3"]);
 defineProps({
   showResult: {
     type: Boolean,
@@ -78,16 +66,53 @@ const emailOptions = ref([
     label: "Professional",
     icon: "professional",
     value: "professional",
+    learning: [
+      "holds a job",
+      "caretaker",
+      "recent illness",
+      "recent travel",
+      "took time off",
+      "none apply",
+    ],
   },
   {
     label: "Supportive",
     icon: "supportive",
     value: "supportive",
+    learning: [
+      "holds a job",
+      "caretaker",
+      "recent illness",
+      "recent travel",
+      "took time off",
+      "none apply",
+    ],
   },
   {
     label: "Upbeat",
     icon: "upbeat",
     value: "upbeat",
+    learning: [
+      "holds a job",
+      "caretaker",
+      "recent illness",
+      "recent travel",
+      "took time off",
+      "none apply",
+    ],
+  },
+  {
+    label: "looks good!",
+    icon: "look-good",
+    value: "",
+    learning: [
+      "holds a job",
+      "caretaker",
+      "recent illness",
+      "recent travel",
+      "took time off",
+      "none apply",
+    ],
   },
 ]);
 

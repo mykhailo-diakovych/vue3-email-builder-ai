@@ -1,6 +1,7 @@
 <template>
   <div class="relative">
     <div
+      v-if="0"
       class="py-3 relative bg-white z-[2] md:py-2 px-4 md:px-6 flex items-center h-auto justify-between border-b md:border-b-0 border-border-gray"
     >
       <img
@@ -24,7 +25,7 @@
         <img class="mr-2" :src="getImageUrl('assets/arrow.svg')" alt="arrow" />
         <span>BACK</span>
       </CIButton>
-      <CIButton type="ghost-gray" class="flex items-center">
+      <CIButton v-if="0" type="ghost-gray" class="flex items-center">
         <img
           class="mr-2"
           :src="getImageUrl('assets/restart.svg')"

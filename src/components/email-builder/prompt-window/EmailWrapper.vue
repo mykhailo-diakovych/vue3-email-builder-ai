@@ -4,10 +4,11 @@
       <component
         :is="components[mainStore.getCurrentStep]"
         :show-result="showResult"
+        :prompt-options="promptOptions"
         @question-1="onSelectEmail"
         @question-2="generateEmail"
         @question-3="onAdditionalOption"
-        @additional-continue="onAdditionalContinue"
+        @question-4="onSelectLearning"
       />
     </keep-alive>
     <div
@@ -58,18 +59,24 @@ const promptOptions = ref({
 
 const components = {
   [PROMPT.EMAIL_TYPES]: defineAsyncComponent(() =>
-    import("@/components/email-builder/prompt-window/EmailTypes.vue")
+    import("@/components/email-builder/prompt-window/steps/EmailTypes.vue")
   ),
   [PROMPT.WRITE_PROMPT]: defineAsyncComponent(() =>
-    import("@/components/email-builder/prompt-window/WritePrompt.vue")
+    import("@/components/email-builder/prompt-window/steps/WritePrompt.vue")
   ),
   [PROMPT.MORE_OPTION]: defineAsyncComponent(() =>
-    import("@/components/email-builder/prompt-window/MoreOptions.vue")
+    import("@/components/email-builder/prompt-window/steps/MoreOptions.vue")
+  ),
+  [PROMPT.MULTIPLE_LEARNING]: defineAsyncComponent(() =>
+    import(
+      "@/components/email-builder/prompt-window/steps/MultipleLearning.vue"
+    )
   ),
 };
 const onSelectEmail = (email) => {
   promptOptions.value.question_1 = email;
 };
+// TODO: refactor functions below
 const generateEmail = async (prompt) => {
   showResult.value = true;
   result.value = await EmailApi.generateEmail(
@@ -81,18 +88,30 @@ const generateEmail = async (prompt) => {
   promptOptions.value.question_2 = prompt;
 };
 const onAdditionalOption = async (option) => {
-  result.value = await EmailApi.generateEmail(
-    promptOptions.value.question_1?.value +
-      promptOptions.value.question_2 +
-      `and type of email is ${option.value}`
-  );
+  const additionalOptionText = option?.value.length
+    ? ` and type of email is ${option.value}`
+    : "";
+  result.value = await EmailApi.generateEmail(`
+  ${promptOptions.value.question_1?.value} ${promptOptions.value.question_2} ${additionalOptionText}
+`);
+  mainStore.setCurrentStep(PROMPT.MULTIPLE_LEARNING);
+  mainStore.addToNavigationHistory(PROMPT.MORE_OPTION);
   mainStore.increaseDraft();
-  mainStore.addToNavigationHistory(PROMPT.WRITE_PROMPT);
   promptOptions.value.question_3 = option;
 };
 
-const onAdditionalContinue = () => {
-  mainStore.addToNavigationHistory(PROMPT.WRITE_PROMPT);
+const onSelectLearning = async (learnings) => {
+  const haveLearnings = learnings.length > 0;
+  const textJoin = learnings.join(",");
+  const learningText = haveLearnings
+    ? `also add these learnings for generation email: ${textJoin}`
+    : "";
+  const additionalOptionText = promptOptions?.value.question_3?.value.length
+    ? ` and type of email is ${promptOptions?.value.question_3?.value}`
+    : "";
+  result.value = await EmailApi.generateEmail(
+    `${promptOptions.value.question_1?.value} ${promptOptions.value.question_2} ${additionalOptionText} ${learningText}`
+  );
 };
 </script>
 
