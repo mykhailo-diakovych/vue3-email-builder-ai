@@ -1,5 +1,8 @@
 <template>
-  <div class="h-auto bg-white animate__animated animate__fadeIn">
+  <div
+    class="w-full px-4 flex flex-col justify-center items-center transition-all duration-1000 animate__animated animate__fadeIn"
+    :class="{ 'md:!w-1/2': showResult }"
+  >
     <div
       class="h-[calc(100vh-4rem)] flex flex-col justify-center max-w-[35rem] mx-auto px-6"
     >
@@ -27,6 +30,14 @@ import { ref } from "vue";
 import CIButton from "@/components/ui/CIButton.vue";
 import { PROMPT } from "@/constants/index.js";
 
+const emit = defineEmits(["question-1"]);
+defineProps({
+  showResult: {
+    type: Boolean,
+    required: true,
+  },
+});
+
 const mainStore = useMainStore();
 
 const typeEmails = ref([
@@ -52,9 +63,9 @@ const typeEmails = ref([
   },
 ]);
 const selectEmailType = (email) => {
+  emit("question-1", email);
   mainStore.setCurrentStep(PROMPT.WRITE_PROMPT);
-  mainStore.addToNavigationHistory(null);
-  mainStore.setEmailType(email);
+  mainStore.addToNavigationHistory(PROMPT.EMAIL_TYPES);
 };
 </script>
 

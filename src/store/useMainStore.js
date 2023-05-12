@@ -1,10 +1,10 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
+import { PROMPT } from "@/constants/index.js";
 
 export const useMainStore = defineStore("use-main-store", () => {
   // state
-  const selectedEmailType = ref(null);
-  const currentStep = ref();
+  const currentStep = ref(PROMPT.EMAIL_TYPES);
   const draft = ref(0);
   const navigationHistory = ref([]);
 
@@ -13,10 +13,8 @@ export const useMainStore = defineStore("use-main-store", () => {
   const getNavigationHistory = computed(() => navigationHistory.value);
 
   // actions
-  const setEmailType = (type) => (selectedEmailType.value = type);
   const setCurrentStep = (step) => {
     currentStep.value = step;
-    !step && (selectedEmailType.value = null);
   };
   const increaseDraft = () => draft.value++;
 
@@ -27,9 +25,7 @@ export const useMainStore = defineStore("use-main-store", () => {
   return {
     draft,
     getCurrentStep,
-    selectedEmailType,
     getNavigationHistory,
-    setEmailType,
     increaseDraft,
     setCurrentStep,
     addToNavigationHistory,

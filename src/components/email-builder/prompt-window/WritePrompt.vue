@@ -23,7 +23,7 @@
 import CIButton from "@/components/ui/CIButton.vue";
 import { ref } from "vue";
 import EmailApi from "@/service/buildEmail.js";
-const emit = defineEmits(["generate"]);
+const emit = defineEmits(["question-2"]);
 defineProps({
   showResult: {
     type: Boolean,
@@ -33,7 +33,7 @@ defineProps({
 const prompt = ref("");
 
 const onWritePrompt = () => {
-  prompt.value && emit("generate", prompt.value);
+  prompt.value && emit("question-2", prompt.value);
 };
 </script>
 

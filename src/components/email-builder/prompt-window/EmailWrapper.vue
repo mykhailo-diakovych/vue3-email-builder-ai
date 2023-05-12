@@ -4,8 +4,9 @@
       <component
         :is="components[mainStore.getCurrentStep]"
         :show-result="showResult"
-        @generate="generateEmail"
-        @additional-option="onAdditionalOption"
+        @question-1="onSelectEmail"
+        @question-2="generateEmail"
+        @question-3="onAdditionalOption"
         @additional-continue="onAdditionalContinue"
       />
     </keep-alive>
@@ -21,6 +22,18 @@
         </div>
         <p v-html="result" />
       </div>
+      <CIButton
+        v-if="EmailApi.hasResult.value"
+        class="hidden md:flex items-center absolute bottom-10 right-10 !rounded-full md:outline md:outline-2 md:outline-white shadow-[0_4px_8px_rgba(0,0,0,0.4)]"
+        type="primary"
+      >
+        <img
+          class="mr-2 w-6 h-6 md:w-7 md:h-7"
+          :src="getImageUrl('assets/share.svg')"
+          alt="share"
+        />
+        <span>SHARE</span>
+      </CIButton>
     </div>
   </div>
 </template>
@@ -30,13 +43,23 @@ import ResultLoader from "@/components/ui/ResultLoader.vue";
 import EmailApi from "@/service/buildEmail.js";
 import { useMainStore } from "@/store/useMainStore.js";
 import { PROMPT } from "@/constants/index.js";
+import CIButton from "@/components/ui/CIButton.vue";
+import { getImageUrl } from "@/helpers/index.js";
 
 const mainStore = useMainStore();
 const showResult = ref(false);
 const result = ref(null);
-const currentInput = ref(null);
+const promptOptions = ref({
+  question_1: null,
+  question_2: null,
+  question_3: null,
+  question_4: null,
+});
 
 const components = {
+  [PROMPT.EMAIL_TYPES]: defineAsyncComponent(() =>
+    import("@/components/email-builder/prompt-window/EmailTypes.vue")
+  ),
   [PROMPT.WRITE_PROMPT]: defineAsyncComponent(() =>
     import("@/components/email-builder/prompt-window/WritePrompt.vue")
   ),
@@ -44,24 +67,28 @@ const components = {
     import("@/components/email-builder/prompt-window/MoreOptions.vue")
   ),
 };
+const onSelectEmail = (email) => {
+  promptOptions.value.question_1 = email;
+};
 const generateEmail = async (prompt) => {
   showResult.value = true;
   result.value = await EmailApi.generateEmail(
-    mainStore.selectedEmailType?.value + prompt
+    promptOptions.value.question_1?.value + prompt
   );
   mainStore.setCurrentStep(PROMPT.MORE_OPTION);
   mainStore.addToNavigationHistory(PROMPT.WRITE_PROMPT);
   mainStore.increaseDraft();
-  currentInput.value = prompt;
+  promptOptions.value.question_2 = prompt;
 };
 const onAdditionalOption = async (option) => {
   result.value = await EmailApi.generateEmail(
-    mainStore.selectedEmailType?.value +
-      currentInput.value +
+    promptOptions.value.question_1?.value +
+      promptOptions.value.question_2 +
       `and type of email is ${option.value}`
   );
   mainStore.increaseDraft();
   mainStore.addToNavigationHistory(PROMPT.WRITE_PROMPT);
+  promptOptions.value.question_3 = option;
 };
 
 const onAdditionalContinue = () => {

@@ -7,7 +7,6 @@
         class="cursor-pointer"
         :src="getImageUrl('assets/logo.svg')"
         alt="logo"
-        @click="mainStore.setEmailType(null)"
       />
       <div class="flex items-center gap-x-4">
         <CIButton type="ghost"> ABOUT </CIButton>
@@ -17,7 +16,8 @@
     <div
       class="relative z-50 bg-off-white -translate-y-full overflow-hidden h-0 shadow-[0_4px_8px_rgba(0,0,0,0.2)] w-full p-0 flex items-center justify-between transition-all"
       :class="{
-        'h-[56px] translate-y-0 py-2 px-4': mainStore.getCurrentStep,
+        'h-[56px] translate-y-0 py-2 px-4':
+          mainStore.getCurrentStep !== PROMPT.EMAIL_TYPES,
       }"
     >
       <CIButton type="ghost-gray" class="flex items-center" @click="onBack">
@@ -39,6 +39,7 @@
 import { getImageUrl } from "@/helpers/index.js";
 import CIButton from "@/components/ui/CIButton.vue";
 import { useMainStore } from "@/store/useMainStore.js";
+import { PROMPT } from "@/constants/index.js";
 const mainStore = useMainStore();
 
 const onBack = () => {

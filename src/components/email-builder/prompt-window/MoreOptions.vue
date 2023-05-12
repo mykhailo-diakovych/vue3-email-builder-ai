@@ -1,10 +1,6 @@
 <template>
-  <div v-if="isVisible" class="more-options" :class="{ '!w-1/2': showResult }">
-    <div
-      v-if="EmailApi.loading.value"
-      class="w-full h-full absolute bg-white opacity-40 z-10"
-    />
-    <div class="more-options__content">
+  <ActionsWrapper :show-result="showResult">
+    <div v-if="!selectedOption" class="more-options__content">
       <p class="more-options__title">How is this? Would you like it more:</p>
       <div class="more-options__actions">
         <CIButton
@@ -12,7 +8,7 @@
           :key="index"
           type="ghost"
           class="flex items-center uppercase shadow-[0_4px_8px_rgba(0,0,0,0.2)] text-start md:text-center border border-border-gray"
-          @click="onMoreOptions(option)"
+          @click="onSelectOption(option)"
         >
           <img
             :src="getImageUrl(`assets/more-options-email/${option.icon}.svg`)"
@@ -35,55 +31,91 @@
         </CIButton>
       </div>
     </div>
-  </div>
+    <div
+      v-else
+      class="h-full flex flex-col justify-center md:max-w-[35rem] mx-auto"
+    >
+      <p class="more-options__selected-title">
+        The draft is now more
+        <span class="more-options__selected-title--selected"
+          >{{ selectedOption.icon }}.</span
+        >
+      </p>
+      <CIButton
+        type="primary"
+        class="uppercase w-full mt-4"
+        @click="onPersonalizeMore"
+      >
+        Next: Personalize MORE
+      </CIButton>
+      <CIButton
+        type="secondary"
+        class="uppercase mt-2 w-full"
+        @click="selectedOption = null"
+      >
+        Choose a different tone
+      </CIButton>
+    </div>
+  </ActionsWrapper>
 </template>
 <script setup>
 import CIButton from "@/components/ui/CIButton.vue";
 import { ref } from "vue";
 import { getImageUrl } from "@/helpers/index.js";
-import EmailApi from "@/service/buildEmail.js";
-import { useScrollArea } from "@/composables/useScrollArea.js";
+import ActionsWrapper from "@/components/email-builder/prompt-window/ActionsWrapper.vue";
 
-const emit = defineEmits(["additional-option", "additional-continue"]);
+const emit = defineEmits(["question-3", "additional-continue"]);
 defineProps({
   showResult: {
     type: Boolean,
     required: true,
   },
 });
+const selectedOption = ref(null);
 
 const emailOptions = ref([
   {
     label: "Professional",
     icon: "professional",
+    value: "professional",
   },
   {
     label: "Supportive",
     icon: "supportive",
+    value: "supportive",
   },
   {
     label: "Upbeat",
     icon: "upbeat",
+    value: "upbeat",
   },
 ]);
 
-const onMoreOptions = (option) => {
-  emit("additional-option", option);
+const onSelectOption = (option) => {
+  selectedOption.value = option;
 };
-const { isVisible } = useScrollArea(".result__paper");
+const onPersonalizeMore = () => {
+  emit("question-3", selectedOption.value);
+};
 </script>
+
 <style scoped lang="scss">
 .more-options {
-  @apply w-full px-4 flex flex-col justify-center items-center transition-all duration-1000 relative;
-
   &__content {
-    @apply md:max-w-[35rem] w-full mx-auto;
+    @apply md:max-w-[35rem] w-full h-full mx-auto flex flex-col justify-center;
   }
   &__title {
     @apply text-black text-xl leading-7 font-light;
   }
   &__actions {
     @apply md:flex flex-col gap-y-2 mt-4;
+  }
+
+  &__selected-title {
+    @apply text-black text-xl leading-7 font-light;
+    &--selected {
+      @apply text-primary font-bold;
+    }
   }
 
   @media (max-width: 776px) {
