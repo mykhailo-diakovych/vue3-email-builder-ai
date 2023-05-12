@@ -1,32 +1,20 @@
 <template>
-  <div class="flex h-full overflow-hidden animate__animated animate__fadeIn">
-    <div
-      class="w-full px-4 flex flex-col justify-center items-center transition-all duration-1000 relative"
-      :class="{ '!w-1/2': showResult }"
-    >
-      <!-- overlay  -->
-      <div
-        v-if="EmailApi.loading.value"
-        class="w-full h-full absolute bg-white opacity-40 z-10"
+  <div class="email-wrapper animate__animated animate__fadeIn">
+    <keep-alive>
+      <component
+        :is="components[mainStore.getCurrentStep]"
+        :show-result="showResult"
+        @generate="generateEmail"
+        @additional-option="onAdditionalOption"
+        @additional-continue="onAdditionalContinue"
       />
-      <keep-alive>
-        <component
-          :is="components[mainStore.getCurrentStep]"
-          @generate="generateEmail"
-          @additional-option="onAdditionalOption"
-          @additional-continue="onAdditionalContinue"
-        />
-      </keep-alive>
-    </div>
+    </keep-alive>
     <div
-      class="w-1/2 flex flex-col justify-center items-center bg-primary-700 transition-all duration-1000 relative overflow-hidden px-20 py-4"
+      class="email-wrapper__result result"
       :class="{ '!p-0 !w-0': !showResult }"
     >
       <ResultLoader v-if="EmailApi.loading.value" class="z-50" />
-      <div
-        v-if="EmailApi.hasResult.value"
-        class="h-full bg-[url('./assets/bg-paper.png')] bg-[length:120%_120%] bg-local px-12 py-16 text-base font-normal leading-6 bg-center rounded-md text-gray-800 justify-self-center self-center overflow-auto w-full"
-      >
+      <div v-if="EmailApi.hasResult.value" class="result__paper">
         <div>
           <p class="font-bold">Draft #{{ mainStore.draft }}</p>
           <p class="font-bold">Subject: Tardiness to class</p>
@@ -81,4 +69,18 @@ const onAdditionalContinue = () => {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.email-wrapper {
+  @apply flex h-full overflow-hidden;
+
+  &__result {
+    @apply w-full md:w-1/2 flex flex-col justify-center items-center bg-primary-700 transition-all duration-1000 relative overflow-hidden px-2 md:px-20 py-4;
+  }
+
+  .result {
+    &__paper {
+      @apply h-full w-full bg-[url('@/assets/bg-paper.png')] bg-[length:120%_120%] bg-local px-6 py-8 md:px-12 md:py-16 text-base font-normal leading-6 bg-center rounded-md text-gray-800 justify-self-center self-center overflow-auto;
+    }
+  }
+}
+</style>

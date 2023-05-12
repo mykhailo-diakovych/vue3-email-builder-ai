@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
-import { PROMPT } from "@/constants/index.js";
 
 export const useMainStore = defineStore("use-main-store", () => {
   // state
