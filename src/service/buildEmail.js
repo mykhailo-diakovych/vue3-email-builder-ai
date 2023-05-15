@@ -12,7 +12,7 @@ class EmailApi {
     this.openai = new OpenAIApi(this.AIConfiguration);
   }
 
-  async generateEmail(prompt) {
+  async generateEmail(prompt, n = 1) {
     try {
       this.loading.value = true;
       this.hasResult.value = false;
@@ -21,10 +21,11 @@ class EmailApi {
         prompt: prompt,
         max_tokens: 700,
         temperature: 1.2,
+        n,
       });
       this.loading.value = false;
-      result.data.choices[0].text && (this.hasResult.value = true);
-      return result.data.choices[0].text.replaceAll("\n", "<br/>");
+      result.data.choices.length && (this.hasResult.value = true);
+      return result.data.choices;
     } catch (e) {
       throw new Error(e);
     } finally {

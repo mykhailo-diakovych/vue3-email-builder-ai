@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="isVisible"
-    class="actions-wrapper"
+    class="actions-wrapper animate__animated animate__fadeIn"
     :class="{ '!w-1/2': showResult }"
   >
     <div
@@ -12,6 +12,7 @@
       v-if="EmailApi.hasResult.value"
       class="flex items-center absolute -top-16 right-2 !rounded-full md:outline md:outline-2 md:outline-white shadow-[0_4px_8px_rgba(0,0,0,0.4)]"
       type="primary"
+      @click="mainStore.toggleShareModal()"
     >
       <img
         class="mr-2 w-6 h-6 md:w-7 md:h-7"
@@ -30,6 +31,7 @@ import CIButton from "@/components/ui/CIButton.vue";
 import { getImageUrl } from "@/helpers/index.js";
 import EmailApi from "@/service/buildEmail.js";
 import { useScrollArea } from "@/composables/useScrollArea.js";
+import { useMainStore } from "@/store/useMainStore.js";
 
 defineProps({
   showResult: {
@@ -37,6 +39,7 @@ defineProps({
     required: true,
   },
 });
+const mainStore = useMainStore();
 
 const { isVisible } = useScrollArea(".result__paper");
 </script>

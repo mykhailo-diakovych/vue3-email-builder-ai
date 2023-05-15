@@ -6,7 +6,14 @@
     <div></div>
   </div>
 </template>
-<script setup></script>
+<script setup>
+defineProps({
+  color: {
+    type: String,
+    default: "#fff",
+  },
+});
+</script>
 
 <style scoped lang="scss">
 .lds-ring {
@@ -14,7 +21,7 @@
 }
 .lds-ring div {
   animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  border-color: #fff transparent transparent transparent;
+  border-color: v-bind(color) transparent transparent transparent;
   @apply box-border block absolute w-[32px] h-[32px] m-2  rounded-full border-4;
 }
 .lds-ring div:nth-child(1) {

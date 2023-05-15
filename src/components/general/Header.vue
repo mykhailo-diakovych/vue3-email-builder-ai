@@ -15,7 +15,7 @@
       </div>
     </div>
     <div
-      class="relative z-50 bg-off-white -translate-y-full overflow-hidden h-0 shadow-[0_4px_8px_rgba(0,0,0,0.2)] w-full p-0 flex items-center justify-between transition-all"
+      class="relative z-0 bg-off-white -translate-y-full overflow-hidden h-0 shadow-[0_4px_8px_rgba(0,0,0,0.2)] w-full p-0 flex items-center justify-between transition-all"
       :class="{
         'h-[56px] translate-y-0 py-2 px-4':
           mainStore.getCurrentStep !== PROMPT.EMAIL_TYPES,

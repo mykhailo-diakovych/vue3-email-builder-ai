@@ -1,6 +1,6 @@
 <template>
   <ActionsWrapper :show-result="showResult">
-    <div class="multiple-learning">
+    <div v-if="!isSelected" class="multiple-learning">
       <p class="multiple-learning__title">
         Want to personalize this further? Select any that apply to this Learner:
       </p>
@@ -16,9 +16,34 @@
           {{ item }}
         </CIButton>
       </div>
-      <CIButton type="primary" class="uppercase mt-2" @click="onContinue"
+      <CIButton type="primary" class="uppercase mt-2" @click="isSelected = true"
         >Continue</CIButton
       >
+    </div>
+    <div
+      v-else
+      class="h-full flex flex-col justify-center md:max-w-[35rem] mx-auto"
+    >
+      <p class="text-black text-xl leading-7 font-light">
+        The messaging has been updated for a
+        <span class="text-primary text-xl leading-7 font-bold"
+          >part-time working parent.</span
+        >
+      </p>
+      <CIButton
+        type="primary"
+        class="uppercase w-full mt-4"
+        @click="onContinue"
+      >
+        Next: Personalize MORE
+      </CIButton>
+      <CIButton
+        type="secondary"
+        class="uppercase mt-2 w-full"
+        @click="isSelected = null"
+      >
+        Choose a different tone
+      </CIButton>
     </div>
   </ActionsWrapper>
 </template>
@@ -38,6 +63,7 @@ defineProps({
   },
 });
 const selectedLearning = ref([]);
+const isSelected = ref(null);
 
 const checkIfSelected = (item) => {
   return selectedLearning.value.indexOf(item) !== -1;

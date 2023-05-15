@@ -1,7 +1,7 @@
 <template>
   <button
     v-if="Object.keys(useSlots()).length"
-    class="font-bold rounded-lg text-xs p-2 sm:text-xs sm:p-3 md:text-base md:p-2 xl:text-base xl:p-3"
+    class="font-bold rounded-lg text-xs p-2 sm:text-xs sm:p-3 md:text-base md:p-2 xl:text-base xl:p-3 disabled:pointer-events-none"
     :class="{
       'button-primary': type === 'primary',
       'button-secondary': type === 'secondary',

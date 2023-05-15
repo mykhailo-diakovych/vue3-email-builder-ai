@@ -21,8 +21,10 @@
 </template>
 <script setup>
 import CIButton from "@/components/ui/CIButton.vue";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import EmailApi from "@/service/buildEmail.js";
+import { useMainStore } from "@/store/useMainStore.js";
+const mainStore = useMainStore();
 const emit = defineEmits(["question-2"]);
 defineProps({
   showResult: {
@@ -35,6 +37,7 @@ const prompt = ref("");
 const onWritePrompt = () => {
   prompt.value && emit("question-2", prompt.value);
 };
+onMounted(() => mainStore.setShowResult(false));
 </script>
 
 <style scoped lang="scss">
