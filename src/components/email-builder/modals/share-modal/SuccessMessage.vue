@@ -7,15 +7,11 @@
       alt="share"
     />
     <p class="text-base text-center">
-      For more tools like these, check out Ribbon. Ribbon is the first student
-      CRM platform built for online adult education providers tostreamline
-      operations and improve student retention.
+      For more information, you can contact with me - m.diakovych13@gmail.com.
     </p>
     <div class="flex items-center gap-x-2 mt-6">
       <CIButton type="primary" class="uppercase w-full">Book a Demo</CIButton>
-      <CIButton type="secondary" class="uppercase w-full"
-        >About Ribbon</CIButton
-      >
+      <CIButton type="secondary" class="uppercase w-full">About</CIButton>
     </div>
   </div>
 </template>

@@ -42,17 +42,23 @@
       </CIButton>
     </div>
     <ShareModal v-if="mainStore.getShareModalOpen" />
+    <StartOverModal
+      v-if="mainStore.getStartOverModalOpen"
+      @close="mainStore.toggleStartOverModal()"
+      @start-over="onStartOver"
+    />
   </div>
 </template>
 <script setup>
 import { defineAsyncComponent, ref, watch } from "vue";
 import ResultLoader from "@/components/ui/ResultLoader.vue";
 import CIButton from "@/components/ui/CIButton.vue";
-import ShareModal from "@/components/email-builder/share-modal/ShareModal.vue";
+import ShareModal from "@/components/email-builder/modals/share-modal/ShareModal.vue";
 import EmailApi from "@/service/buildEmail.js";
 import { useMainStore } from "@/store/useMainStore.js";
 import { PROMPT } from "@/constants/index.js";
 import { checkIfHasScrollBar, getImageUrl } from "@/helpers/index.js";
+import StartOverModal from "@/components/email-builder/modals/StartOverModal.vue";
 
 const mainStore = useMainStore();
 const result = ref(null);
@@ -148,6 +154,12 @@ const onFinish = () => {
   mainStore.setCurrentStep(PROMPT.FINISH);
   mainStore.addToNavigationHistory(PROMPT.ADDITIONAL_DRAFT);
   mainStore.setShowResult(false);
+};
+
+const onStartOver = () => {
+  result.value = null;
+  promptOptions.value = null;
+  mainStore.resetStore();
 };
 
 watch(

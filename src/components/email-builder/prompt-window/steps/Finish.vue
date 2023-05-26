@@ -4,13 +4,11 @@
   >
     <h2 class="text-black text-[32px] font-bold mb-7 text-start">Thanks!</h2>
     <p class="text-black text-xl leading-7 font-light mb-7">
-      For more tools like these, check out Ribbon. Ribbon is the first student
-      CRM platform built for online adult education providers tostreamline
-      operations and improve student retention.
+      For more information, you can contact with me - m.diakovych13@gmail.com.
     </p>
     <div class="flex items-center gap-x-2 w-full">
       <CIButton class="w-full" type="primary">BOOK A DEMO</CIButton>
-      <CIButton class="w-full" type="secondary">ABOUT RIBBON</CIButton>
+      <CIButton class="w-full" type="secondary">ABOUT</CIButton>
     </div>
   </div>
 </template>

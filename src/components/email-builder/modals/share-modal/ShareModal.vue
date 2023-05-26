@@ -36,7 +36,7 @@ import CIModal from "@/components/ui/CIModal.vue";
 import { ref } from "vue";
 import CIButton from "@/components/ui/CIButton.vue";
 import { useMainStore } from "@/store/useMainStore.js";
-import SuccessMessage from "@/components/email-builder/share-modal/SuccessMessage.vue";
+import SuccessMessage from "@/components/email-builder/modals/share-modal/SuccessMessage.vue";
 import ResultLoader from "@/components/ui/ResultLoader.vue";
 const email = ref();
 const loading = ref(false);

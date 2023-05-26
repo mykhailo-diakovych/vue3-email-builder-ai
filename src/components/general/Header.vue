@@ -25,7 +25,11 @@
         <img class="mr-2" :src="getImageUrl('assets/arrow.svg')" alt="arrow" />
         <span>BACK</span>
       </CIButton>
-      <CIButton v-if="0" type="ghost-gray" class="flex items-center">
+      <CIButton
+        type="ghost-gray"
+        class="flex items-center"
+        @click="mainStore.toggleStartOverModal()"
+      >
         <img
           class="mr-2"
           :src="getImageUrl('assets/restart.svg')"

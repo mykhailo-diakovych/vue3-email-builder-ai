@@ -9,6 +9,7 @@ export const useMainStore = defineStore("use-main-store", () => {
   const navigationHistory = ref([]);
   const showResult = ref(false);
   const isShareModalOpen = ref(false);
+  const isStartOverModalOpen = ref(false);
 
   // getters
   const getCurrentStep = computed(() => currentStep.value);
@@ -16,6 +17,7 @@ export const useMainStore = defineStore("use-main-store", () => {
   const getNavigationHistory = computed(() => navigationHistory.value);
   const isShowResult = computed(() => showResult.value);
   const getShareModalOpen = computed(() => isShareModalOpen.value);
+  const getStartOverModalOpen = computed(() => isStartOverModalOpen.value);
 
   // actions
   const setShowResult = (value) => {
@@ -35,6 +37,18 @@ export const useMainStore = defineStore("use-main-store", () => {
   const toggleShareModal = () => {
     isShareModalOpen.value = !isShareModalOpen.value;
   };
+  const toggleStartOverModal = () => {
+    isStartOverModalOpen.value = !isStartOverModalOpen.value;
+  };
+
+  const resetStore = () => {
+    currentStep.value = PROMPT.EMAIL_TYPES;
+    draft.value = 0;
+    navigationHistory.value = [];
+    showResult.value = false;
+    isShareModalOpen.value = false;
+    isStartOverModalOpen.value = false;
+  };
 
   return {
     draft,
@@ -43,10 +57,13 @@ export const useMainStore = defineStore("use-main-store", () => {
     getCurrentStep,
     getShareModalOpen,
     getNavigationHistory,
+    getStartOverModalOpen,
+    resetStore,
     setShowResult,
     increaseDraft,
     setCurrentStep,
     toggleShareModal,
     addToNavigationHistory,
+    toggleStartOverModal,
   };
 });
