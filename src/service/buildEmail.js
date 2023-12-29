@@ -5,7 +5,7 @@ class EmailApi {
   constructor() {
     this.loading = ref(false);
     this.hasResult = ref(false);
-    this.key = "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";
+    this.key = "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";
     this.AIConfiguration = new Configuration({
       apiKey: this.key,
     });
