@@ -22,8 +22,8 @@
 <script setup>
 import CIButton from "@/components/ui/CIButton.vue";
 import { onMounted, ref } from "vue";
-import EmailApi from "@/service/buildEmail.js";
-import { useMainStore } from "@/store/useMainStore.js";
+import EmailApi from "@/service/buildEmail.ts";
+import { useMainStore } from "@/store/useMainStore.ts";
 const mainStore = useMainStore();
 const emit = defineEmits(["question-2"]);
 defineProps({

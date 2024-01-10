@@ -25,10 +25,10 @@
   </div>
 </template>
 <script setup>
-import { useMainStore } from "@/store/useMainStore.js";
+import { useMainStore } from "@/store/useMainStore.ts";
 import { ref } from "vue";
 import CIButton from "@/components/ui/CIButton.vue";
-import { PROMPT } from "@/constants/index.js";
+import { PROMPT } from "@/constants/index.ts";
 
 const emit = defineEmits(["question-1"]);
 defineProps({

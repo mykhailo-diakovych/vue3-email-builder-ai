@@ -1,5 +1,5 @@
 import { onMounted, onUnmounted, ref } from "vue";
-import { checkIfHasScrollBar } from "@/helpers/index.js";
+import { checkIfHasScrollBar } from "@/helpers/index.ts";
 
 export const useScrollArea = (selector) => {
   const isVisible = ref(false);

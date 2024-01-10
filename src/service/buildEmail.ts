@@ -5,9 +5,8 @@ class EmailApi {
   constructor() {
     this.loading = ref(false);
     this.hasResult = ref(false);
-    this.key = "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";
     this.AIConfiguration = new Configuration({
-      apiKey: this.key,
+      apiKey: import.meta.env.VITE_GPT_KEY,
     });
     this.openai = new OpenAIApi(this.AIConfiguration);
   }
@@ -17,7 +16,7 @@ class EmailApi {
       this.loading.value = true;
       this.hasResult.value = false;
       const result = await this.openai.createCompletion({
-        model: "text-davinci-003",
+        model: "gpt-3.5-turbo-instruct",
         prompt: prompt,
         max_tokens: 700,
         temperature: 1.2,

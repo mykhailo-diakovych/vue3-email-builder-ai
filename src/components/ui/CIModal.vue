@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import { getImageUrl } from "@/helpers/index.js";
+import { getImageUrl } from "@/helpers/index.ts";
 defineEmits(["close"]);
 </script>
 

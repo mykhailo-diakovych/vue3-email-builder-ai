@@ -40,11 +40,11 @@
     </div>
   </div>
 </template>
-<script setup>
-import { getImageUrl } from "@/helpers/index.js";
+<script setup lang="ts">
+import { getImageUrl } from "@/helpers/index.ts";
 import CIButton from "@/components/ui/CIButton.vue";
-import { useMainStore } from "@/store/useMainStore.js";
-import { PROMPT } from "@/constants/index.js";
+import { useMainStore } from "@/store/useMainStore.ts";
+import { PROMPT } from "@/constants/index.ts";
 const mainStore = useMainStore();
 
 const onBack = () => {

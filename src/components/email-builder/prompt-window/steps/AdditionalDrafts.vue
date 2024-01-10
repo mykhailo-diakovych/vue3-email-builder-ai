@@ -26,7 +26,7 @@
 import ActionsWrapper from "@/components/email-builder/prompt-window/ActionsWrapper.vue";
 import { onMounted, ref } from "vue";
 import CIButton from "@/components/ui/CIButton.vue";
-import { useMainStore } from "@/store/useMainStore.js";
+import { useMainStore } from "@/store/useMainStore.ts";
 const mainStore = useMainStore();
 const props = defineProps({
   showResult: {

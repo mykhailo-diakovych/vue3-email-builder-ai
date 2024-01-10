@@ -28,10 +28,10 @@
 </template>
 <script setup>
 import CIButton from "@/components/ui/CIButton.vue";
-import { getImageUrl } from "@/helpers/index.js";
-import EmailApi from "@/service/buildEmail.js";
-import { useScrollArea } from "@/composables/useScrollArea.js";
-import { useMainStore } from "@/store/useMainStore.js";
+import { getImageUrl } from "@/helpers/index.ts";
+import EmailApi from "@/service/buildEmail.ts";
+import { useScrollArea } from "@/composables/useScrollArea.ts";
+import { useMainStore } from "@/store/useMainStore.ts";
 
 defineProps({
   showResult: {

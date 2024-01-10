@@ -16,7 +16,7 @@
   </div>
 </template>
 <script setup>
-import { getImageUrl } from "@/helpers/index.js";
+import { getImageUrl } from "@/helpers/index.ts";
 import CIButton from "@/components/ui/CIButton.vue";
 </script>
 

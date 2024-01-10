@@ -49,21 +49,22 @@
     />
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import { defineAsyncComponent, ref, watch } from "vue";
 import ResultLoader from "@/components/ui/ResultLoader.vue";
 import CIButton from "@/components/ui/CIButton.vue";
 import ShareModal from "@/components/email-builder/modals/share-modal/ShareModal.vue";
-import EmailApi from "@/service/buildEmail.js";
-import { useMainStore } from "@/store/useMainStore.js";
-import { PROMPT } from "@/constants/index.js";
-import { checkIfHasScrollBar, getImageUrl } from "@/helpers/index.js";
+import EmailApi from "@/service/buildEmail.ts";
+import { useMainStore } from "@/store/useMainStore.ts";
+import { PROMPT } from "@/constants/index.ts";
+import { checkIfHasScrollBar, getImageUrl } from "@/helpers/index.ts";
 import StartOverModal from "@/components/email-builder/modals/StartOverModal.vue";
+import { IPromptOptions } from "@/types";
 
 const mainStore = useMainStore();
 const result = ref(null);
 const freeSpace = ref(false);
-const promptOptions = ref({
+const promptOptions = ref<IPromptOptions>({
   question_1: null,
   question_2: null,
   question_3: null,
@@ -71,37 +72,42 @@ const promptOptions = ref({
 });
 
 const components = {
-  [PROMPT.EMAIL_TYPES]: defineAsyncComponent(() =>
-    import("@/components/email-builder/prompt-window/steps/EmailTypes.vue")
+  [PROMPT.EMAIL_TYPES]: defineAsyncComponent(
+    () =>
+      import("@/components/email-builder/prompt-window/steps/EmailTypes.vue")
   ),
-  [PROMPT.WRITE_PROMPT]: defineAsyncComponent(() =>
-    import("@/components/email-builder/prompt-window/steps/WritePrompt.vue")
+  [PROMPT.WRITE_PROMPT]: defineAsyncComponent(
+    () =>
+      import("@/components/email-builder/prompt-window/steps/WritePrompt.vue")
   ),
-  [PROMPT.MORE_OPTION]: defineAsyncComponent(() =>
-    import("@/components/email-builder/prompt-window/steps/MoreOptions.vue")
+  [PROMPT.MORE_OPTION]: defineAsyncComponent(
+    () =>
+      import("@/components/email-builder/prompt-window/steps/MoreOptions.vue")
   ),
-  [PROMPT.MULTIPLE_LEARNING]: defineAsyncComponent(() =>
-    import(
-      "@/components/email-builder/prompt-window/steps/MultipleLearning.vue"
-    )
+  [PROMPT.MULTIPLE_LEARNING]: defineAsyncComponent(
+    () =>
+      import(
+        "@/components/email-builder/prompt-window/steps/MultipleLearning.vue"
+      )
   ),
-  [PROMPT.ADDITIONAL_DRAFT]: defineAsyncComponent(() =>
-    import(
-      "@/components/email-builder/prompt-window/steps/AdditionalDrafts.vue"
-    )
+  [PROMPT.ADDITIONAL_DRAFT]: defineAsyncComponent(
+    () =>
+      import(
+        "@/components/email-builder/prompt-window/steps/AdditionalDrafts.vue"
+      )
   ),
-  [PROMPT.FINISH]: defineAsyncComponent(() =>
-    import("@/components/email-builder/prompt-window/steps/Finish.vue")
+  [PROMPT.FINISH]: defineAsyncComponent(
+    () => import("@/components/email-builder/prompt-window/steps/Finish.vue")
   ),
 };
-const onSelectEmail = (email) => {
-  promptOptions.value.question_1 = email;
+const onSelectEmail = (email: { label: string; value: string }) => {
+  promptOptions.value.question_1 = email.value;
 };
 // TODO: refactor functions below
 const generateEmail = async (prompt) => {
   mainStore.setShowResult(true);
   const data = await EmailApi.generateEmail(
-    `${promptOptions.value.question_1?.value} ${prompt}`
+    `${promptOptions.value.question_1} ${prompt}`
   );
   result.value = data[0].text.replaceAll("\n", "<br/>");
   mainStore.setCurrentStep(PROMPT.MORE_OPTION);
@@ -114,7 +120,7 @@ const onAdditionalOption = async (option) => {
     ? ` and type of email is ${option.value}`
     : "";
   const data = await EmailApi.generateEmail(`
-  ${promptOptions.value.question_1?.value} ${promptOptions.value.question_2} ${additionalOptionText}
+  ${promptOptions.value.question_1} ${promptOptions.value.question_2} ${additionalOptionText}
 `);
   result.value = data[0].text.replaceAll("\n", "<br/>");
   mainStore.setCurrentStep(PROMPT.MULTIPLE_LEARNING);
@@ -133,7 +139,7 @@ const onSelectLearning = async (learnings) => {
     ? ` and type of email is ${promptOptions?.value.question_3?.value}`
     : "";
   const data = await EmailApi.generateEmail(
-    `${promptOptions.value.question_1?.value} ${promptOptions.value.question_2} ${additionalOptionText} ${learningText}`,
+    `${promptOptions.value.question_1} ${promptOptions.value.question_2} ${additionalOptionText} ${learningText}`,
     3
   );
   result.value = data[0].text.replaceAll("\n", "<br/>");
@@ -143,7 +149,7 @@ const onSelectLearning = async (learnings) => {
   promptOptions.value.question_4 = { drafts: data, learnings };
 };
 
-const onSelectDraft = ({ draft, index }) => {
+const onSelectDraft = ({ index }) => {
   result.value = promptOptions.value.question_4.drafts[index].text.replaceAll(
     "\n",
     "<br/>"
@@ -158,7 +164,12 @@ const onFinish = () => {
 
 const onStartOver = () => {
   result.value = null;
-  promptOptions.value = null;
+  promptOptions.value = {
+    question_1: null,
+    question_2: null,
+    question_3: null,
+    question_4: null,
+  };
   mainStore.resetStore();
 };
 

@@ -49,7 +49,7 @@
 <script setup>
 import CIButton from "@/components/ui/CIButton.vue";
 import { ref } from "vue";
-import { getImageUrl } from "@/helpers/index.js";
+import { getImageUrl } from "@/helpers/index.ts";
 import ActionsWrapper from "@/components/email-builder/prompt-window/ActionsWrapper.vue";
 const emit = defineEmits(["question-3"]);
 defineProps({
